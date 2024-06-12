@@ -1,45 +1,50 @@
 const getState = ({ getStore, getActions, setStore }) => {
-	return {
-		store: {
-			demo: [
-				{
-					title: "FIRST",
-					background: "white",
-					initial: "white"
-				},
-				{
-					title: "SECOND",
-					background: "white",
-					initial: "white"
-				}
-			]
-		},
-		actions: {
-			// Use getActions to call a function within a fuction
-			exampleFunction: () => {
-				getActions().changeColor(0, "green");
-			},
-			loadSomeData: () => {
-				/**
-					fetch().then().then(data => setStore({ "foo": data.bar }))
-				*/
-			},
-			changeColor: (index, color) => {
-				//get the store
-				const store = getStore();
+  return {
+    store: {
+      characters: [],
+      planets: [],
+      vehicles: [],
+    },
+    actions: {
+      getCharacterfromAPI: async () => {
+        try {
+          const respuesta = await fetch("https://swapi.tech/api/people");
+          const dataCharacters = await respuesta.json();
+          const charactersAPI = dataCharacters.results;
+          console.log(charactersAPI);
 
-				//we have to loop the entire demo array to look for the respective index
-				//and change its color
-				const demo = store.demo.map((elm, i) => {
-					if (i === index) elm.background = color;
-					return elm;
-				});
+          setStore((prevState) => {
+            console.log(prevState);
+            console.log("Holaa");
+          });
 
-				//reset the global store
-				setStore({ demo: demo });
-			}
-		}
-	};
+          //   setStore((prevState) => ({
+          //     ...prevState,
+          //     characters: charactersAPI,
+          //   }));
+        } catch (error) {
+          console.log(error);
+        }
+      },
+      getPlanetfromAPI: async () => {
+        try {
+          const respuesta = await fetch("https://swapi.tech/api/planets");
+          const dataPlanet = await respuesta.json();
+          const PlanetAPI = dataPlanet.results;
+          console.log(PlanetsAPI);
+          setStore((prevState) => ({
+            ...prevState,
+            planets: {
+              ...prevState.planets,
+              PlanetAPI,
+            },
+          }));
+        } catch (error) {
+          console.log(error);
+        }
+      },
+    },
+  };
 };
 
 export default getState;
