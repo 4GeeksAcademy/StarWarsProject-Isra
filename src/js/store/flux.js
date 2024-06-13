@@ -13,32 +13,18 @@ const getState = ({ getStore, getActions, setStore }) => {
           const charactersAPI = dataCharacters.results;
           console.log(charactersAPI);
 
-          setStore((prevState) => {
-            console.log(prevState);
-            console.log("Holaa");
-          });
-
-          //   setStore((prevState) => ({
-          //     ...prevState,
-          //     characters: charactersAPI,
-          //   }));
+          setStore({ characters: charactersAPI });
         } catch (error) {
           console.log(error);
         }
       },
-      getPlanetfromAPI: async () => {
+      getPlanetsfromAPI: async () => {
         try {
           const respuesta = await fetch("https://swapi.tech/api/planets");
           const dataPlanet = await respuesta.json();
-          const PlanetAPI = dataPlanet.results;
+          const PlanetsAPI = dataPlanet.results;
           console.log(PlanetsAPI);
-          setStore((prevState) => ({
-            ...prevState,
-            planets: {
-              ...prevState.planets,
-              PlanetAPI,
-            },
-          }));
+          setStore({ planets: PlanetsAPI });
         } catch (error) {
           console.log(error);
         }
